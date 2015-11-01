@@ -1,11 +1,5 @@
 <?php
 /**
- * Better Blockquotes
- *
- * @package   Better_Blockquotes
- * @license   GPL-2.0+
- *
- * @wordpress-plugin
  * Plugin Name: Better Blockquotes
  * Plugin URI:  http://github.com/devinsays/better-blockquotes
  * Description: Replaces the standard blockquote button in the WordPress editor with one that additional options.
@@ -17,7 +11,6 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path: /languages
  */
-namespace Better_Blockquotes;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -25,60 +18,123 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Determines when to load custom TinyMCE buttons
+ * Better Blockquotes
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
-function tinyMCE_custom_button() {
+class BetterBlockquotes {
 
-    global $typenow;
+	const VERSION = '0.1.0';
 
-    // Exit if user can't edit posts
-    if ( ! current_user_can( 'edit_posts') && ! current_user_can( 'edit_pages' ) ) {
-   		return;
-    }
+	/**
+	 * Constructor
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		add_action( 'init', array( $this, 'init' ) );
 
-	// Only load on posts or pages
-	// @TODO Extend to Custom Post Types
-    if ( ! in_array( $typenow, array( 'post', 'page' ) ) ) {
-        return;
-    }
-
-	// Only load if rich editor is on
-	if ( 'true' == get_user_option( 'rich_editing' ) ) {
-		add_filter( 'mce_external_plugins', __NAMESPACE__ . '\add_tinyMCE_plugin' );
-		add_filter( 'mce_buttons', __NAMESPACE__ . '\register_tinyMCE_button' );
 	}
 
-}
-add_action( 'admin_head', __NAMESPACE__ . '\tinyMCE_custom_button' );
+	/**
+	 * Initialize the plugin
+	 *
+	 * @return void
+	 */
+	public function init() {
 
-/**
- * Loads the javascript required for the custom TinyMCE button
- *
- * @since 1.0.0
- */
-function add_tinyMCE_plugin( $plugin_array ) {
+    	// Setup internationalization
+		$this->i18n();
 
-   	$plugin_array['better_blockquote'] = plugins_url( 'blockquotes.js', __FILE__ );
-   	return $plugin_array;
+		// Translations used by javascript loaded with this plugin
+		add_action( 'admin_enqueue_scripts', array( $this, 'localize_script' ) );
 
-}
-
-/**
- * Adds the button to TinyMCE
- *
- * @since 1.0.0
- */
-function register_tinyMCE_button( $buttons ) {
-
-	// Removes the default blockquote button
-	if ( false !== ( $key = array_search( 'blockquote', $buttons ) ) ) {
-		unset( $buttons[$key] );
+		// Loads the buttons if user has permissions
+		add_action( 'admin_head', array( $this, 'tinyMCE_button_init' ) );
 	}
 
-   // Add the custom blockquotes button
-   array_push( $buttons, 'better_blockquote' );
+	/**
+	 * Internationalization setup
+	 *
+	 * @return void
+	 */
+	public function i18n() {
+		$domain = 'better-blockquotes';
+		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+		load_textdomain( $domain, WP_LANG_DIR."/tinymce-email-button/$domain-$locale.mo" );
+		load_plugin_textdomain( $domain, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
 
-   return $buttons;
+	/**
+	 * Localization for the tinymce-email-button.js file
+	 *
+	 * @return void
+	 */
+	public function localize_script() {
+
+		wp_localize_script( 'editor', 'better_blockquotes', array(
+			'add_blockquote'  => __( 'Add Blockquote', 'better-blockquotes' ),
+			'blockquote'  => __( 'Blockquote', 'better-blockquotes' ),
+			'quote'  => __( 'Quote', 'better-blockquotes' ),
+			'citation'  => __( 'Citation', 'better-blockquotes' ),
+			'citation_link'  => __( 'Citation Link', 'better-blockquotes' ),
+		) );
+
+	}
+
+	/**
+	 * TinyMCE Button Init
+	 *
+	 * @return void
+	 */
+	public function tinyMCE_button_init() {
+
+		// Exit if user can't edit posts
+		if ( ! current_user_can( 'edit_posts') && ! current_user_can( 'edit_pages' ) ) {
+   			return;
+    	}
+
+		// Exit if rich editing is not enable
+    	if ( 'true' != get_user_option( 'rich_editing' ) ) {
+	    	return;
+	    }
+
+		add_filter( 'mce_buttons', array( $this, 'register_tinyMCE_button' ) );
+		add_filter( 'mce_external_plugins', array( $this, 'add_tinyMCE_plugin' ) );
+
+	}
+
+	/**
+	 * Loads the javascript required for the custom TinyMCE button
+	 *
+	 * @return array TinyMCE buttons
+	 */
+	function add_tinyMCE_plugin( $plugin_array ) {
+
+	   	$plugin_array['better_blockquote'] = plugins_url( 'blockquotes.js', __FILE__ );
+	   	return $plugin_array;
+
+	}
+
+	/**
+	 * Adds the button to TinyMCE
+	 *
+	 * @since 1.0.0
+	 */
+	function register_tinyMCE_button( $buttons ) {
+
+		// Removes the default blockquote button
+		if ( false !== ( $key = array_search( 'blockquote', $buttons ) ) ) {
+			unset( $buttons[$key] );
+		}
+
+	   // Add the custom blockquotes button
+	   array_push( $buttons, 'better_blockquote' );
+
+	   return $buttons;
+	}
+
+
 }
+
+new BetterBlockquotes;

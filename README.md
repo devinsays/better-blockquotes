@@ -2,15 +2,16 @@
 
 The standard WordPress editor has no option for blockquotes with citations. This plugin solves that problem. It replaces the standard button with a pop-up and fields for "quote", "citation" and "citation link". This information is then inserted into the post using proper HTML5 blockquote markup.
 
+Potentially, this could be added as an enhancement to WordPress core. If text is selected and the button is clicked, it could maintain the same functionality (text wrapped in blockquotes). Otherwise, the pop-up is shown. This plugin would need some additional updates to support that though- at the moment it just shows the pop-up.
+
 ### Requirements
 
 * WordPress 4.3 or higher
 
 ### TODO
 
-* Make all strings translatable
-* Auto-populate "quote" field in pop-up with selected text
-* Test with custom post types
+* Maintain existing tinyMCE button functionality when text is selected
+* Populate fields automatically in pop-up if blockquote text is selected
 
 ### Frequently Asked Questions
 

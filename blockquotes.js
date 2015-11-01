@@ -9,18 +9,18 @@
     tinymce.PluginManager.add( 'better_blockquote', function( editor, url ) {
 
 		editor.addButton( 'better_blockquote', {
-            title: 'Add Blockquote',
+            title: better_blockquotes.add_blockquote,
             type: 'button',
             icon: 'blockquote',
             onclick: function() {
 
 				editor.windowManager.open({
-				    title: 'Blockquote',
+				    title: better_blockquotes.blockquote,
 				    body: [
 				    {
 				        type: 'textbox',
 				        name: 'quote',
-				        label: 'Quote',
+				        label: better_blockquotes.quote,
 				        multiline: true,
 				        minWidth: 300,
 						minHeight: 100
@@ -28,13 +28,12 @@
 					{
 				        type: 'textbox',
 				        name: 'cite',
-				        label: 'Citation',
-				        text : "Hello"
+				        label: better_blockquotes.citation,
 				    },
 					{
 				        type: 'textbox',
 				        name: 'link',
-				        label: 'Citation Link',
+				        label: better_blockquotes.citation_link,
 				    },
 				    ],
 				    onsubmit: function( e ) {
