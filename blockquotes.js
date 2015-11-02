@@ -41,23 +41,17 @@
 					    var blockquote = '';
 					    var cite = '';
 
-						if ( e.data.cite ) {
-							cite += e.data.cite;
-						}
+              if ( e.data.link && e.data.cite ) {
+                cite = '<a href="' + e.data.link + '">' + e.data.cite + '</a>';
+              } else if ( !e.data.link && e.data.cite ) {
+                cite = '<cite>' + e.data.cite + '</cite>';
+              }
 
-					    if ( e.data.link && e.data.cite ) {
-							cite = '<a href="' + e.data.link + '">' + cite + '</a>';
-						}
-
-						if ( e.data.cite ) {
-							cite = '<cite>' + e.data.cite + '</cite>';
-						}
-
-						if ( e.data.quote ) {
-							blockquote += '<blockquote>';
-							blockquote += e.data.quote;
-							blockquote += cite;
-							blockquote += '</blockquote>';
+  						if ( e.data.quote ) {
+  							blockquote += '<blockquote>';
+  							blockquote += e.data.quote;
+  							blockquote += cite;
+  							blockquote += '</blockquote>';
 					    }
 
 				        editor.insertContent(blockquote);
