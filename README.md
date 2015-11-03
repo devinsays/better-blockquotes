@@ -1,17 +1,14 @@
 ## Better Blockquotes
 
-The standard WordPress editor has no option for blockquotes with citations. This plugin solves that problem. It replaces the standard button with a pop-up and fields for "quote", "citation" and "citation link". This information is then inserted into the post using proper HTML5 blockquote markup.
+The standard WordPress editor does not provide any easy way to add blockquotes with citations. This plugin solves that problem. If no text is selected when the button is clicked, a pop-up provides fields for "quote", "citation" and "citation link". This information is then inserted into the post using proper HTML5 blockquote markup.
 
-Potentially, this could be added as an enhancement to WordPress core. If text is selected and the button is clicked, it could maintain the same functionality (text wrapped in blockquotes). Otherwise, the pop-up is shown. This plugin would need some additional updates to support that though- at the moment it just shows the pop-up.
+Potentially, this could be added as an enhancement to WordPress core. If text is selected, the button maintains the same functionality as the current blockquote button. The pop-up fields only appear when no text is selected.
+
+![A screenshot of the Better Blockquotes pop-up window.](https://github.com/devinsays/better-blockquotes/raw/master/screenshot-1.png)
 
 ### Requirements
 
 * WordPress 4.3 or higher
-
-### TODO
-
-* Maintain existing tinyMCE button functionality when text is selected
-* Populate fields automatically in pop-up if blockquote text is selected
 
 ### Frequently Asked Questions
 
