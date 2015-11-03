@@ -4,7 +4,7 @@ The standard WordPress editor does not provide any easy way to add blockquotes w
 
 Potentially, this could be added as an enhancement to WordPress core. If text is selected, the button maintains the same functionality as the current blockquote button. The pop-up fields only appear when no text is selected.
 
-![A screenshot of the Better Blockquotes pop-up window.](https://github.com/devinsays/better-blockquotes/raw/master/screenshot-1.png)
+![A screenshot of the Better Blockquotes pop-up window.](https://github.com/devinsays/better-blockquotes/raw/master/screenshot-1.jpg)
 
 ### Requirements
 
