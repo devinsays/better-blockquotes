@@ -38,10 +38,6 @@ function prefix_blockquote_classes() {
 add_filter( 'betterblockquotes_classes', 'prefix_blockquote_classes' );
 ```
 
-#### What is Gruntfile.js and package.json used for?
-
-This is how translation files (.pot) are built. If you have Grunt installed and need to generate a new translation file, just run `npm install` and then `grunt`. If i18n is not needed for your project, feel free to remove.
-
 ### Change Log
 
 #### Version 1.0.0
