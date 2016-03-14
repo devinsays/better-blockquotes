@@ -25,7 +25,7 @@ This plugin doesn't add any styling for blockquotes. Contact the author of your 
 
 #### Blockquote Classes/Styles
 
-Developers can optionally add style options to the pop-up. Any selected styles will apply a class directly to the <blockquote> element.
+Developers can optionally add style options to the pop-up. Any selected styles will apply a class directly to the `<blockquote>` element.
 
 ```
 function prefix_blockquote_classes() {
