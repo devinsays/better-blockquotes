@@ -78,6 +78,8 @@ class BetterBlockquotes {
 			'quote'  => __( 'Quote', 'better-blockquotes' ),
 			'citation'  => __( 'Citation', 'better-blockquotes' ),
 			'citation_link'  => __( 'Citation Link', 'better-blockquotes' ),
+			'class' => __( 'Class', 'better-blockquotes' ),
+			'class_options' => apply_filters( 'betterblockquotes_classes', false )
 		) );
 
 	}
@@ -133,7 +135,6 @@ class BetterBlockquotes {
 
 	   return $buttons;
 	}
-
 
 }
 

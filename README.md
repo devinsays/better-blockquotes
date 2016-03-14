@@ -2,8 +2,6 @@
 
 The standard WordPress editor does not provide any easy way to add blockquotes with citations. This plugin solves that problem. If no text is selected when the button is clicked, a pop-up provides fields for "quote", "citation" and "citation link". This information is then inserted into the post using proper HTML5 blockquote markup.
 
-Potentially, this could be added as an enhancement to WordPress core. If text is selected, the button maintains the same functionality as the current blockquote button. The pop-up fields only appear when no text is selected.
-
 ![A screenshot of the Better Blockquotes pop-up window.](https://github.com/devinsays/better-blockquotes/raw/master/screenshot-1.jpg)
 
 ### Requirements
@@ -25,10 +23,27 @@ This is the quote.
 
 This plugin doesn't add any styling for blockquotes. Contact the author of your theme to make sure they support blockquote markup.
 
-#### Is this plugin on the WordPress repo?
+#### Blockquote Classes/Styles
 
-Not yet. Still in beta.
+Developers can optionally add style options to the pop-up. Any selected styles will apply a class directly to the <blockquote> element.
+
+```
+function prefix_blockquote_classes() {
+	$options = array(
+		'class-1' => __( 'Style One', 'better-blockquotes' ),
+		'class-2' => __( 'Style Two', 'better-blockquotes' ),
+	);
+	return $options;
+}
+add_filter( 'betterblockquotes_classes', 'prefix_blockquote_classes' );
+```
 
 #### What is Gruntfile.js and package.json used for?
 
 This is how translation files (.pot) are built. If you have Grunt installed and need to generate a new translation file, just run `npm install` and then `grunt`. If i18n is not needed for your project, feel free to remove.
+
+### Change Log
+
+#### Version 1.0.0
+
+* Public release

@@ -21,9 +21,8 @@
 				// If no text is selected, display pop-up
 	            } else {
 
-					editor.windowManager.open({
-					    title: better_blockquotes.blockquote,
-					    body: [
+					// Standard fields to display in blockquote pop-up
+		            var body = [
 					    {
 					        type: 'textbox',
 					        name: 'quote',
@@ -42,9 +41,27 @@
 					        name: 'link',
 					        label: better_blockquotes.citation_link,
 					    },
-					    ],
-					    onsubmit: function( e ) {
+					];
 
+					// Display classes dropdown in pop-up if defined
+					if ( better_blockquotes.class_options ) {
+						var class_options = [];
+						for ( var key in better_blockquotes.class_options ) {
+							class_options.push({ 'value': key, 'text' : better_blockquotes.class_options[key] });
+						}
+
+						body.push({
+					        type: 'listbox',
+					        name: 'class',
+					        label: better_blockquotes.class,
+					        values : class_options
+					    });
+					}
+
+					editor.windowManager.open({
+					    title: better_blockquotes.blockquote,
+					    body: body,
+					    onsubmit: function( e ) {
 						    var blockquote = '';
 						    var cite = '';
 
@@ -55,7 +72,11 @@
 	              			}
 
 	  						if ( e.data.quote ) {
-	  							blockquote += '<blockquote>';
+		  						if ( e.data.class ) {
+			  						blockquote += '<blockquote class="' + e.data.class + '">';
+		  						} else {
+			  						blockquote += '<blockquote>';
+		  						}
 	  							blockquote += e.data.quote;
 	  							blockquote += cite;
 	  							blockquote += '</blockquote>';
