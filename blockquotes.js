@@ -5,91 +5,93 @@
  */
 
 (function() {
-    tinymce.PluginManager.add( 'better_blockquote', function( editor, url ) {
+  tinymce.PluginManager.add( 'better_blockquote', function( editor, url ) {
 
-		editor.addButton( 'better_blockquote', {
-            title: better_blockquotes.add_blockquote,
-            type: 'button',
-            icon: 'blockquote',
-            onclick: function() {
+    var selected = 0;
 
-				// If text is selected, toggle blockquote markup
-	            if ( editor.selection.getContent() ) {
+    editor.addButton( 'better_blockquote', {
+      title: better_blockquotes.add_blockquote,
+      type: 'button',
+      icon: 'blockquote',
+      onclick: function() {
 
-					editor.formatter.toggle('blockquote');
+        // If text is selected, use selected text in blockquote pop-up
+        if ( editor.selection.getContent() ) {
+          selected = editor.selection.getContent();
+        } else {
+          selected = '';
+        }
 
-				// If no text is selected, display pop-up
-	            } else {
+        // display pop-up
+        // Standard fields to display in blockquote pop-up
+        var body = [
+        {
+          type: 'textbox',
+          name: 'quote',
+          label: better_blockquotes.quote,
+          value: selected,
+          multiline: true,
+          minWidth: 300,
+          minHeight: 100
+        },
+        {
+          type: 'textbox',
+          name: 'cite',
+          label: better_blockquotes.citation,
+        },
+        {
+          type: 'textbox',
+          name: 'link',
+          label: better_blockquotes.citation_link,
+        },
+        ];
 
-					// Standard fields to display in blockquote pop-up
-		            var body = [
-					    {
-					        type: 'textbox',
-					        name: 'quote',
-					        label: better_blockquotes.quote,
-					        multiline: true,
-					        minWidth: 300,
-							minHeight: 100
-					    },
-						{
-					        type: 'textbox',
-					        name: 'cite',
-					        label: better_blockquotes.citation,
-					    },
-						{
-					        type: 'textbox',
-					        name: 'link',
-					        label: better_blockquotes.citation_link,
-					    },
-					];
+        // Display classes dropdown in pop-up if defined
+        if ( better_blockquotes.class_options ) {
+          var class_options = [];
+          for ( var key in better_blockquotes.class_options ) {
+            class_options.push({ 'value': key, 'text' : better_blockquotes.class_options[key] });
+          }
 
-					// Display classes dropdown in pop-up if defined
-					if ( better_blockquotes.class_options ) {
-						var class_options = [];
-						for ( var key in better_blockquotes.class_options ) {
-							class_options.push({ 'value': key, 'text' : better_blockquotes.class_options[key] });
-						}
+          body.push({
+            type: 'listbox',
+            name: 'class',
+            label: better_blockquotes.class,
+            values : class_options
+          });
+        }
 
-						body.push({
-					        type: 'listbox',
-					        name: 'class',
-					        label: better_blockquotes.class,
-					        values : class_options
-					    });
-					}
+        editor.windowManager.open({
+          title: better_blockquotes.blockquote,
+          body: body,
+          onsubmit: function( e ) {
+            var blockquote = '';
+            var cite = '';
 
-					editor.windowManager.open({
-					    title: better_blockquotes.blockquote,
-					    body: body,
-					    onsubmit: function( e ) {
-						    var blockquote = '';
-						    var cite = '';
+            if ( e.data.link && e.data.cite ) {
+              cite = '<cite><a href="' + e.data.link + '">' + e.data.cite + '</a></cite>';
+            } else if ( !e.data.link && e.data.cite ) {
+              cite = '<cite>' + e.data.cite + '</cite>';
+            }
 
-							if ( e.data.link && e.data.cite ) {
-								cite = '<cite><a href="' + e.data.link + '">' + e.data.cite + '</a></cite>';
-	              			} else if ( !e.data.link && e.data.cite ) {
-				  				cite = '<cite>' + e.data.cite + '</cite>';
-	              			}
+            if ( e.data.quote ) {
+              if ( e.data.class ) {
+                blockquote += '<blockquote class="' + e.data.class + '"><p>';
+              } else {
+                blockquote += '<blockquote>';
+              }
+              blockquote += e.data.quote;
+              blockquote += cite;
+              blockquote += '</blockquote>';
+            }
 
-	  						if ( e.data.quote ) {
-		  						if ( e.data.class ) {
-			  						blockquote += '<blockquote class="' + e.data.class + '">';
-		  						} else {
-			  						blockquote += '<blockquote>';
-		  						}
-	  							blockquote += e.data.quote;
-	  							blockquote += cite;
-	  							blockquote += '</blockquote>';
-						    }
+            editor.insertContent(blockquote);
 
-					        editor.insertContent(blockquote);
-
-					    }
-					});
-
-				}
-			}
+          }
         });
 
+      }
     });
+
+  });
 })();
