@@ -78,6 +78,7 @@
 			  						blockquote += '<blockquote>';
 		  						}
 	  							blockquote += e.data.quote;
+	  							blockquote += ' ';
 	  							blockquote += cite;
 	  							blockquote += '</blockquote>';
 						    }
