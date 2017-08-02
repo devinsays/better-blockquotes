@@ -79,7 +79,13 @@ class BetterBlockquotes {
 			'citation'  => __( 'Citation', 'better-blockquotes' ),
 			'citation_link'  => __( 'Citation Link', 'better-blockquotes' ),
 			'class' => __( 'Class', 'better-blockquotes' ),
-			'class_options' => apply_filters( 'betterblockquotes_classes', false )
+			'class_options' => apply_filters( 'betterblockquotes_classes', false ),
+			'html_filters' => array(
+				'before_blockquote' => apply_filters( 'betterblockquotes_before_blockquote', '' ),
+				'after_blockquote' => apply_filters( 'betterblockquotes_after_blockquote', '' ),
+				'before_cite' => apply_filters( 'betterblockquotes_before_cite', '' ),
+				'after_cite' => apply_filters( 'betterblockquotes_after_cite', '' )
+			)
 		) );
 
 	}
