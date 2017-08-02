@@ -62,13 +62,14 @@
 					    title: better_blockquotes.blockquote,
 					    body: body,
 					    onsubmit: function( e ) {
-						    var blockquote = '';
-						    var cite = '';
+						    var htmlFilters = better_blockquotes.html_filters;
+						    var blockquote = htmlFilters.before_blockquote;
+						    var cite = htmlFilters.before_cite;
 
 							if ( e.data.link && e.data.cite ) {
-								cite = '<cite><a href="' + e.data.link + '">' + e.data.cite + '</a></cite>';
+								cite += '<cite><a href="' + e.data.link + '">' + e.data.cite + '</a></cite>';
 	              			} else if ( !e.data.link && e.data.cite ) {
-				  				cite = '<cite>' + e.data.cite + '</cite>';
+				  				cite += '<cite>' + e.data.cite + '</cite>';
 	              			}
 
 	  						if ( e.data.quote ) {
@@ -78,8 +79,8 @@
 			  						blockquote += '<blockquote>';
 		  						}
 	  							blockquote += e.data.quote;
-	  							blockquote += cite;
-	  							blockquote += '</blockquote>';
+	  							blockquote += cite + htmlFilters.after_cite;
+	  							blockquote += '</blockquote>' + htmlFilters.after_blockquote;
 						    }
 
 					        editor.insertContent(blockquote);
